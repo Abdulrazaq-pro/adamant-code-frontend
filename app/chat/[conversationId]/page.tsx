@@ -106,7 +106,7 @@ export default function Chat() {
   const hasUserMessages = messages.some((msg) => msg.isUser);
 
   return (
-    <div className="flex flex-col justify-center w-full h-dvh stretch">
+    <div className="flex flex-col justify-center w-full h-dvh stretch bg-white">
       {/* <div className="flex flex-col w-full h-dvh  bg-red-300"> */}
       <div className="block md:hidden">
         <Header />
@@ -121,7 +121,7 @@ export default function Chat() {
           opacity: hasUserMessages ? 1 : 0,
         }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="overflow-y-auto flex-1 py-8 space-y-4 h-full px-4mx-auto w-full max-w-[90%] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+        className="overflow-y-auto flex-1 mx-auto py-8 space-y-4 h-full px-4mx-auto w-full max-w-[90%] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
         style={{ display: hasUserMessages ? "block" : "none" }}
       >
         <div className="overflow-y-auto flex-1 py-8 space-y-4 "></div>

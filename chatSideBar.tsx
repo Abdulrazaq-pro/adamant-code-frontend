@@ -9,7 +9,13 @@ import {
 } from "@/components/sidebar";
 
 export default function ChatSidebar() {
-  const { conversations, fetchConversations, deleteConversation } = useChatStore();
+  const {
+    conversations,
+    fetchConversations,
+    deleteConversation,
+    activeConversationId,
+    setActiveConversation,
+  } = useChatStore();
 
   useEffect(() => {
     fetchConversations();
@@ -24,17 +30,13 @@ export default function ChatSidebar() {
   };
 
   return (
-    <>
-      <SidebarHeader>
-        {/* <div className="flex items-center justify-between w-full">
-          <h2 className="font-semibold text-lg">Chat History</h2>
-          <SidebarTrigger />
-        </div> */}
-      </SidebarHeader>
+    <div className="pt-8">
       <SidebarContent>
         <div className="space-y-2">
           {conversations.length === 0 ? (
-            <div className="p-3 text-sm text-gray-500">No conversations yet</div>
+            <div className="p-3 text-sm text-gray-500">
+              No conversations yet
+            </div>
           ) : (
             conversations
               .filter((conv) => !conv.isDeleted)
@@ -57,6 +59,6 @@ export default function ChatSidebar() {
           )}
         </div>
       </SidebarContent>
-    </>
+    </div>
   );
 }

@@ -39,15 +39,15 @@ export default function RootLayout({
         {/* <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       > */}
-        <div className="hidden md:block">
-          <Header />
-        </div>
-        <SidebarProvider className="">
+        <SidebarProvider className="bg-purple-50">
+          <div className="hidden md:block">
+            <Header />
+          </div>
           <Sidebar className="overflow-y-auto flex-1 py-16 space-y-4 h-full">
             <SidebarHeader>
               <div className="flex items-center justify-between w-full">
-                <h2 className="font-semibold text-lg">Chat History</h2>
-                <SidebarTrigger />
+                {/* <h2 className="font-semibold text-lg">Chat History</h2> */}
+                {/* <SidebarTrigger /> */}
               </div>
             </SidebarHeader>
             {/* <SidebarHeader></SidebarHeader> */}

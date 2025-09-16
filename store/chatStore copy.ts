@@ -19,6 +19,9 @@ interface Conversation {
 interface ChatStore {
   conversations: Conversation[];
   activeConversationId: string | null;
+
+
+
   createConversation: (title: string) => Promise<any>;
   fetchConversations: () => Promise<void>;
   fetchMessages: (conversationId: string) => Promise<void>;
@@ -37,6 +40,20 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 
   createConversation: async (title?: string) => {
     try {
+      const state = get();
+
+      // ✅ Check if there's already an empty conversation (no messages)
+      const hasEmptyConversation = state.conversations.some(
+        (conv) => !conv.isDeleted && conv.messages.length === 0
+      );
+
+      if (hasEmptyConversation) {
+        return {
+          success: false,
+          message: "You already have an empty conversation.",
+        };
+      }
+
       const finalTitle =
         typeof title === "string" && title.length > 0
           ? title
@@ -57,7 +74,10 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       if (result.success && result.data) {
         set((state) => ({
           ...state,
-          conversations: [...state.conversations, result.data],
+          conversations: [
+            ...state.conversations,
+            { ...result.data, messages: [] },
+          ], // ensure messages field exists
         }));
       }
 

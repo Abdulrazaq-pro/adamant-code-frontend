@@ -7,6 +7,7 @@ interface Message {
   isUser: boolean; // Your local format
   sender?: string; // API format (optional)
   createdAt: string;
+  pending?: boolean; // Optional flag for optimistic updates
 }
 
 interface Conversation {
@@ -19,6 +20,12 @@ interface Conversation {
 interface ChatStore {
   conversations: Conversation[];
   activeConversationId: string | null;
+
+  // Loading states
+  conversationLoading: boolean;
+  generalLoading: boolean;
+
+  // Actions
   createConversation: (title: string) => Promise<any>;
   fetchConversations: () => Promise<void>;
   fetchMessages: (conversationId: string) => Promise<void>;
@@ -29,13 +36,30 @@ interface ChatStore {
   ) => Promise<void>;
   deleteConversation: (conversationId: string) => Promise<void>;
   setActiveConversation: (conversationId: string | null) => void;
+
+  // Loading state setters
+  setConversationLoading: (loading: boolean) => void;
+  setGeneralLoading: (loading: boolean) => void;
 }
 
 export const useChatStore = create<ChatStore>((set, get) => ({
   conversations: [],
   activeConversationId: null,
+  conversationLoading: false,
+  generalLoading: false,
+
+  // Loading state setters
+  setConversationLoading: (loading: boolean) => {
+    set((state) => ({ ...state, conversationLoading: loading }));
+  },
+
+  setGeneralLoading: (loading: boolean) => {
+    set((state) => ({ ...state, generalLoading: loading }));
+  },
 
   createConversation: async (title?: string) => {
+    set((state) => ({ ...state, conversationLoading: true }));
+
     try {
       const state = get();
 
@@ -85,6 +109,8 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         success: false,
         error: error instanceof Error ? error.message : "Unknown error",
       };
+    } finally {
+      set((state) => ({ ...state, conversationLoading: false }));
     }
   },
 
@@ -93,6 +119,8 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   },
 
   fetchConversations: async () => {
+    set((state) => ({ ...state, generalLoading: true }));
+
     try {
       const res = await fetch("/api/conversations");
 
@@ -114,10 +142,14 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     } catch (error) {
       console.error("Failed to fetch conversations:", error);
       set((state) => ({ ...state, conversations: [] }));
+    } finally {
+      set((state) => ({ ...state, generalLoading: false }));
     }
   },
 
   fetchMessages: async (conversationId: string) => {
+    set((state) => ({ ...state, conversationLoading: true }));
+
     try {
       const res = await fetch(`/api/messages?conversationId=${conversationId}`);
 
@@ -146,6 +178,8 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     } catch (error) {
       console.error("Failed to fetch messages:", error);
       throw error;
+    } finally {
+      set((state) => ({ ...state, conversationLoading: false }));
     }
   },
 
@@ -154,6 +188,9 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     content: string,
     isUser: boolean
   ) => {
+    // Set loading state for message operations
+    set((state) => ({ ...state, conversationLoading: true }));
+
     // Step 1: Create a temporary optimistic message
     const tempId = crypto.randomUUID();
     const sender = isUser ? "user" : "assistant";
@@ -240,10 +277,14 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       }));
 
       throw error;
+    } finally {
+      set((state) => ({ ...state, conversationLoading: false }));
     }
   },
 
   deleteConversation: async (conversationId: string) => {
+    set((state) => ({ ...state, conversationLoading: true }));
+
     try {
       const res = await fetch(`/api/conversations?id=${conversationId}`, {
         method: "DELETE",
@@ -277,6 +318,8 @@ export const useChatStore = create<ChatStore>((set, get) => ({
         success: false,
         error: error instanceof Error ? error.message : "Unknown error",
       };
+    } finally {
+      set((state) => ({ ...state, conversationLoading: false }));
     }
   },
 }));

@@ -97,7 +97,8 @@ const Sidebar = React.forwardRef<
       <Sheet open={openMobile} onOpenChange={setOpenMobile}>
         <SheetContent
           side="left"
-          className="w-72 p-0 bg-gray-50 border-r"
+          className="w-72 p-0 "
+          // className="w-72 p-0 bg-gray-50 "
           style={{ '--sidebar-width': SIDEBAR_WIDTH_MOBILE } as React.CSSProperties}
         >
           <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
@@ -121,7 +122,8 @@ const Sidebar = React.forwardRef<
       <div
         ref={ref}
         className={cn(
-          'fixed left-0 top-0 z-40 h-full bg-gray-50 border-r transition-transform duration-300 ease-in-out',
+          'fixed left-0 top-0 z-40 h-full  transition-transform duration-300 ease-in-out',
+          // 'fixed left-0 top-0 z-40 h-full bg-gray-50  transition-transform duration-300 ease-in-out',
           open ? 'translate-x-0 w-64' : '-translate-x-full w-64',
           className
         )}
@@ -182,7 +184,7 @@ const SidebarHeader = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn('flex items-center justify-between p-4 border-b', className)}
+      className={cn('flex items-center justify-between p-4 ', className)}
       {...props}
     />
   );
@@ -196,7 +198,7 @@ const SidebarFooter = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn('p-4 border-t', className)}
+      className={cn('p-4 ', className)}
       {...props}
     />
   );
@@ -211,8 +213,8 @@ const SidebarInset = React.forwardRef<
   return (
     <main
       ref={ref}
-      className={cn('flex-1 flex flex-col bg-white', className)}
-      // className={cn('flex-1 flex flex-col min-h-screen bg-white', className)}
+      className={cn('flex-1 flex flex-col ', className)}
+      // className={cn('flex-1 flex flex-col bg-white', className)}
       {...props}
     />
   );

@@ -16,7 +16,7 @@ export default function Modal() {
   };
 
   return createPortal(
-    <div className="fixed inset-0 flex items-center justify-center bg-black/30 bg-opacity-30 backdrop-blur-[4px] z-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-black/30 bg-opacity-30 backdrop-blur-[4px] z-[1002]">
       <div className="bg-white p-6 rounded-xl shadow-lg max-w-sm w-full text-center">
         <p className="text-gray-800 mb-6">
           Are you sure you want to delete{" "}

@@ -15,6 +15,7 @@ export default function ChatSidebar() {
     fetchConversations,
     deleteConversation,
     createConversation,
+    activeConversationId,
     setActiveConversation,
   } = useChatStore();
 
@@ -37,7 +38,8 @@ export default function ChatSidebar() {
 
     // name map by createdAt ascending (oldest -> newest)
     const sortedByCreated = [...nonDeleted].sort(
-      (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      (a, b) =>
+        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     );
     const map = new Map<string, string>();
     sortedByCreated.forEach((conv, i) => {
@@ -46,7 +48,8 @@ export default function ChatSidebar() {
 
     // display order by updatedAt descending (newest -> oldest)
     const sortedByUpdated = [...nonDeleted].sort(
-      (a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+      (a, b) =>
+        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
     );
 
     return { nameMap: map, displayList: sortedByUpdated };
@@ -75,31 +78,56 @@ export default function ChatSidebar() {
 
   return (
     <div className="px-3">
-      <SidebarHeader className="flex items-center justify-center p-2 mb-4 bg-red-50 gap-1">
-        <button onClick={handleNewChat} className="flex items-center gap-1">
+      <SidebarHeader className="flex items-center justify-center p-2 mb-4 bg-purple-100 rounded-md shadow-sm">
+        <button 
+          onClick={handleNewChat} 
+          className="flex items-center gap-1 text-purple-700"
+        >
           <img
             src="/icons/plus.svg"
             alt="New conversation"
-            className="w-4 h-4 cursor-pointer hover:opacity-80"
+            className="w-4 h-4"
           />
-          <span className="text-sm">New Convo</span>
+          <span className="text-sm font-medium">New Chat</span>
         </button>
       </SidebarHeader>
 
-      <SidebarContent className="p-0">
-        <div className="space-y-3">
+      <SidebarContent className="p-0 bg-purple-50">
+        <div className="space-y-1">
           {displayList.length === 0 ? (
-            <div className="text-sm text-gray-500">No conversations yet</div>
+            <div className="text-sm text-gray-500 text-center py-4">
+              No conversations yet
+            </div>
           ) : (
             displayList.map((conversation) => {
-              const label = nameMap.get(conversation.id) ?? conversation.title ?? "Conversation";
+              const label =
+                nameMap.get(conversation.id) ??
+                conversation.title ??
+                "Conversation";
+              
+              const isActive = activeConversationId === conversation.id;
+              
               return (
                 <div
                   key={conversation.id}
-                  className="flex items-center justify-between py-2 hover:bg-gray-100 rounded-lg cursor-pointer group"
+                  className={`
+                    flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer group
+                    shadow-sm hover:shadow-md
+                    ${
+                      isActive
+                        ? "bg-neutral-100 shadow-md"
+                        : "bg-white hover:bg-gray-50"
+                    }
+                  `}
                   onClick={() => handleSelectConversation(conversation.id)}
                 >
-                  <span className="text-sm truncate" title={conversation.title || label}>
+                  <span
+                    className={`
+                      text-sm font-medium truncate
+                      ${isActive ? "text-gray-800" : "text-gray-700"}
+                    `}
+                    title={conversation.title || label}
+                  >
                     {label}
                   </span>
 
@@ -109,13 +137,12 @@ export default function ChatSidebar() {
                       // open modal with the label (Conversation X)
                       openModal(conversation.id, label);
                     }}
-                    className=""
-                    // className="opacity-0 group-hover:opacity-100"
+                    className="opacity-0 group-hover:opacity-100 p-1 hover:bg-red-50 rounded-md"
                   >
                     <img
                       src="/icons/bin.svg"
                       alt="Delete"
-                      className="w-4 h-4 cursor-pointer hover:opacity-80"
+                      className="w-4 h-4"
                     />
                   </button>
                 </div>
