@@ -1,0 +1,168 @@
+{
+  "success": true,
+  "message": "Conversations fetched successfully",
+  "data": [
+    {
+      "id": "cmflsxarb000atxz0s5lmoe8y",
+      "title": "New Conversation",
+      "createdAt": "2025-09-16T00:15:17.688Z",
+      "updatedAt": "2025-09-16T00:17:17.915Z",
+      "isDeleted": false,
+      "messages": [
+        {
+          "id": "cmflsz587000otxz084aeevev",
+          "content": "omooooooooooooo",
+          "isUser": true,
+          "conversationId": "cmflsxarb000atxz0s5lmoe8y",
+          "createdAt": "2025-09-16T00:16:43.831Z"
+        },
+        {
+          "id": "cmflsz6fl000qtxz0lohxi169",
+          "content": "This is an AI generated response",
+          "isUser": false,
+          "conversationId": "cmflsxarb000atxz0s5lmoe8y",
+          "createdAt": "2025-09-16T00:16:45.394Z"
+        },
+        {
+          "id": "cmflsztb5000stxz00e8a3s6k",
+          "content": "wowaaaaaaaaaaaaa",
+          "isUser": true,
+          "conversationId": "cmflsxarb000atxz0s5lmoe8y",
+          "createdAt": "2025-09-16T00:17:15.041Z"
+        },
+        {
+          "id": "cmflszugj000utxz0fz6q11p7",
+          "content": "This is an AI generated response",
+          "isUser": false,
+          "conversationId": "cmflsxarb000atxz0s5lmoe8y",
+          "createdAt": "2025-09-16T00:17:16.531Z"
+        }
+      ]
+    },
+    {
+      "id": "cmflqvshj001gtxjwfkilbqb7",
+      "title": "My first test conversation",
+      "createdAt": "2025-09-15T23:18:05.044Z",
+      "updatedAt": "2025-09-16T00:18:33.198Z",
+      "isDeleted": false,
+      "messages": [
+        {
+          "id": "cmflrrvxx001rtxjwgy1pd18t",
+          "content": "Hello, this is a Postman test again#",
+          "isUser": true,
+          "conversationId": "cmflqvshj001gtxjwfkilbqb7",
+          "createdAt": "2025-09-15T23:43:05.364Z"
+        },
+        {
+          "id": "cmflrryic001ttxjw68pgzxch",
+          "content": "This is an AI generated response",
+          "isUser": false,
+          "conversationId": "cmflqvshj001gtxjwfkilbqb7",
+          "createdAt": "2025-09-15T23:43:08.917Z"
+        },
+        {
+          "id": "cmflrskjk001vtxjwgty3q49g",
+          "content": "this is a jamal",
+          "isUser": true,
+          "conversationId": "cmflqvshj001gtxjwfkilbqb7",
+          "createdAt": "2025-09-15T23:43:37.177Z"
+        },
+        {
+          "id": "cmflrsnki001xtxjwp8bucinu",
+          "content": "This is an AI generated response",
+          "isUser": false,
+          "conversationId": "cmflqvshj001gtxjwfkilbqb7",
+          "createdAt": "2025-09-15T23:43:41.393Z"
+        },
+        {
+          "id": "cmflsueh30007txz0m07o3ybw",
+          "content": "hello",
+          "isUser": true,
+          "conversationId": "cmflqvshj001gtxjwfkilbqb7",
+          "createdAt": "2025-09-16T00:13:02.535Z"
+        },
+        {
+          "id": "cmflsufu70009txz08qy3hi4j",
+          "content": "This is an AI generated response",
+          "isUser": false,
+          "conversationId": "cmflqvshj001gtxjwfkilbqb7",
+          "createdAt": "2025-09-16T00:13:04.303Z"
+        },
+        {
+          "id": "cmflsy75x000gtxz0d1tpnj5t",
+          "content": "yayyyyyyyyyyyyy",
+          "isUser": true,
+          "conversationId": "cmflqvshj001gtxjwfkilbqb7",
+          "createdAt": "2025-09-16T00:15:59.338Z"
+        },
+        {
+          "id": "cmflsy8fs000itxz099e7ep3i",
+          "content": "This is an AI generated response",
+          "isUser": false,
+          "conversationId": "cmflqvshj001gtxjwfkilbqb7",
+          "createdAt": "2025-09-16T00:16:01.336Z"
+        },
+        {
+          "id": "cmflt1f400010txz0nfr2b40n",
+          "content": "bjbjbbjb",
+          "isUser": true,
+          "conversationId": "cmflqvshj001gtxjwfkilbqb7",
+          "createdAt": "2025-09-16T00:18:29.450Z"
+        },
+        {
+          "id": "cmflt1ghc0012txz0dv6hr51f",
+          "content": "This is an AI generated response",
+          "isUser": false,
+          "conversationId": "cmflqvshj001gtxjwfkilbqb7",
+          "createdAt": "2025-09-16T00:18:31.728Z"
+        }
+      ]
+    },
+    {
+      "id": "cmflvdipe001dtxz0z416fhes",
+      "title": "New Conversation",
+      "createdAt": "2025-09-16T01:23:53.714Z",
+      "updatedAt": "2025-09-16T01:23:59.860Z",
+      "isDeleted": false,
+      "messages": [
+        {
+          "id": "cmflvdl5b001ftxz0fe468b6c",
+          "content": "jj",
+          "isUser": true,
+          "conversationId": "cmflvdipe001dtxz0z416fhes",
+          "createdAt": "2025-09-16T01:23:56.577Z"
+        },
+        {
+          "id": "cmflvdmia001htxz03xgbicus",
+          "content": "This is an AI generated response",
+          "isUser": false,
+          "conversationId": "cmflvdipe001dtxz0z416fhes",
+          "createdAt": "2025-09-16T01:23:58.643Z"
+        }
+      ]
+    },
+    {
+      "id": "cmflvfa7e001itxz06hv9dre7",
+      "title": "New Conversation",
+      "createdAt": "2025-09-16T01:25:14.845Z",
+      "updatedAt": "2025-09-16T01:25:22.805Z",
+      "isDeleted": false,
+      "messages": [
+        {
+          "id": "cmflvfcw0001ktxz0sofdk7by",
+          "content": "hello",
+          "isUser": true,
+          "conversationId": "cmflvfa7e001itxz06hv9dre7",
+          "createdAt": "2025-09-16T01:25:19.489Z"
+        },
+        {
+          "id": "cmflvfef7001mtxz0x6e2jygb",
+          "content": "This is an AI generated response",
+          "isUser": false,
+          "conversationId": "cmflvfa7e001itxz06hv9dre7",
+          "createdAt": "2025-09-16T01:25:21.475Z"
+        }
+      ]
+    }
+  ]
+}
