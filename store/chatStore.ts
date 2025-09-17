@@ -501,104 +501,104 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     }
   },
 
- addMessage: async (
-  conversationId: string,
-  content: string,
-  isUser: boolean
-) => {
-  // Set loading state for message operations
-  set((state) => ({ ...state, conversationLoading: true }));
+  addMessage: async (
+    conversationId: string,
+    content: string,
+    isUser: boolean
+  ) => {
+    // Set loading state for message operations
+    set((state) => ({ ...state, conversationLoading: true }));
 
-  // Step 1: Create a temporary user message (input)
-  const tempId = crypto.randomUUID();
-  const sender = isUser ? "user" : "assistant";
+    // Step 1: Create a temporary user message (input)
+    const tempId = crypto.randomUUID();
+    const sender = isUser ? "user" : "assistant";
 
-  const tempUserMessage: Message = {
-    id: tempId,
-    conversationId,
-    content,
-    isUser: true, // This is the user input
-    sender: "user",
-    createdAt: new Date().toISOString(),
-    pending: true, // custom flag
-  };
+    const tempUserMessage: Message = {
+      id: tempId,
+      conversationId,
+      content,
+      isUser: true, // This is the user input
+      sender: "user",
+      createdAt: new Date().toISOString(),
+      pending: true, // custom flag
+    };
 
-  // Immediately update UI with temp user message
-  const now = new Date().toISOString();
-  set((state) => ({
-    ...state,
-    conversations: state.conversations.map((conv) =>
-      conv.id === conversationId
-        ? {
-            ...conv,
-            messages: [...conv.messages, tempUserMessage],
-            updatedAt: now,
-          }
-        : conv
-    ),
-  }));
+    // Immediately update UI with temp user message
+    const now = new Date().toISOString();
+    set((state) => ({
+      ...state,
+      conversations: state.conversations.map((conv) =>
+        conv.id === conversationId
+          ? {
+              ...conv,
+              messages: [...conv.messages, tempUserMessage],
+              updatedAt: now,
+            }
+          : conv
+      ),
+    }));
 
-  try {
-    // Step 2: Send message to API
-    const res = await fetch("/api/messages", {
-      method: "POST",
-      body: JSON.stringify({
-        conversationId,
-        content,
-        sender: "user",
-        createdAt: tempUserMessage.createdAt,
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
+    try {
+      // Step 2: Send message to API
+      const res = await fetch("/api/messages", {
+        method: "POST",
+        body: JSON.stringify({
+          conversationId,
+          content,
+          sender: "user",
+          createdAt: tempUserMessage.createdAt,
+        }),
+        headers: { "Content-Type": "application/json" },
+      });
 
-    if (!res.ok) {
-      throw new Error(`Failed to add message: ${res.statusText}`);
+      if (!res.ok) {
+        throw new Error(`Failed to add message: ${res.statusText}`);
+      }
+
+      const responseData = await res.json();
+
+      // Step 3: Get AI response from responseData.data and add both messages
+      const aiResponse: Message = responseData.data; // This is the AI response
+
+      // Replace temp user message with confirmed user message + add AI response
+      set((state) => ({
+        ...state,
+        conversations: state.conversations.map((conv) =>
+          conv.id === conversationId
+            ? {
+                ...conv,
+                messages: [
+                  ...conv.messages.filter((msg) => msg.id !== tempId), // Remove temp
+                  { ...tempUserMessage, pending: false }, // Add confirmed user message
+                  aiResponse, // Add AI response from API
+                ],
+              }
+            : conv
+        ),
+      }));
+
+      // Remove the return statement to match Promise<void>
+    } catch (error) {
+      console.error("Failed to add message:", error);
+
+      // Step 4: Roll back — remove the temp user message
+      set((state) => ({
+        ...state,
+        conversations: state.conversations.map((conv) =>
+          conv.id === conversationId
+            ? {
+                ...conv,
+                messages: conv.messages.filter((msg) => msg.id !== tempId),
+              }
+            : conv
+        ),
+      }));
+
+      throw error;
+    } finally {
+      set((state) => ({ ...state, conversationLoading: false }));
     }
-
-    const responseData = await res.json();
-
-    // Step 3: Get AI response from responseData.data and add both messages
-    const aiResponse: Message = responseData.data; // This is the AI response
-
-    // Replace temp user message with confirmed user message + add AI response
-    set((state) => ({
-      ...state,
-      conversations: state.conversations.map((conv) =>
-        conv.id === conversationId
-          ? {
-              ...conv,
-              messages: [
-                ...conv.messages.filter((msg) => msg.id !== tempId), // Remove temp
-                { ...tempUserMessage, pending: false }, // Add confirmed user message
-                aiResponse, // Add AI response from API
-              ],
-            }
-          : conv
-      ),
-    }));
-
-    return aiResponse;
-  } catch (error) {
-    console.error("Failed to add message:", error);
-
-    // Step 4: Roll back — remove the temp user message
-    set((state) => ({
-      ...state,
-      conversations: state.conversations.map((conv) =>
-        conv.id === conversationId
-          ? {
-              ...conv,
-              messages: conv.messages.filter((msg) => msg.id !== tempId),
-            }
-          : conv
-      ),
-    }));
-
-    throw error;
-  } finally {
-    set((state) => ({ ...state, conversationLoading: false }));
-  }
-},
+  },
   deleteConversation: async (conversationId: string) => {
     set((state) => ({ ...state, conversationLoading: true }));
 
