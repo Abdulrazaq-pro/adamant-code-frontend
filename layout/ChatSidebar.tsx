@@ -77,7 +77,7 @@ export default function ChatSidebar() {
   };
 
   return (
-    <div className="px-3">
+    <div className="p-3 md:pt-2 pt-10">
       <SidebarHeader className="flex items-center justify-center p-2 mb-4 bg-purple-100 rounded-md shadow-sm">
         <button 
           onClick={handleNewChat} 
@@ -137,7 +137,7 @@ export default function ChatSidebar() {
                       // open modal with the label (Conversation X)
                       openModal(conversation.id, label);
                     }}
-                    className="opacity-0 group-hover:opacity-100 p-1 hover:bg-red-50 rounded-md"
+                    className=" group-hover:opacity-90 p-1 hover:bg-red-50 rounded-md"
                   >
                     <img
                       src="/icons/bin.svg"

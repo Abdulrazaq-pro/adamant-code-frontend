@@ -68,7 +68,6 @@ export default function Chat() {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
-    // Must have a conversation ID from params
     if (!conversationId) {
       toast.error("No conversation ID found");
       return;
@@ -79,20 +78,20 @@ export default function Chat() {
     setIsLoading(true);
 
     try {
-      // Add user message using Zustand store
+      // Send user message - FIXED: Pass content string and isUser boolean
       const userMessageResponse = await addMessage(
         conversationId,
-        userMessage,
-        true
+        userMessage, // 👈 Just the content string
+        true // 👈 isUser = true for user messages
       );
 
-      // Get AI response directly from addMessage function
-      const aiResponse = "This is an AI generated response";
-      const aiMessageResponse = await addMessage(
-        conversationId,
-        aiResponse,
-        false
-      );
+      // Send AI message (when you implement AI responses)
+      // const aiResponse = "This is an AI generated response";
+      // const aiMessageResponse = await addMessage(
+      //   conversationId,
+      //   aiResponse,    // 👈 Just the content string
+      //   false         // 👈 isUser = false for AI messages
+      // );
 
       setIsLoading(false);
     } catch (error) {

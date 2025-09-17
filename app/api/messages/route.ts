@@ -1,18 +1,35 @@
 import { NextResponse } from "next/server";
 
-const BACKEND_URL = process.env.BACKEND_URL!;
+const BACKEND_URL = process.env.BACKEND_URL || "http://localhost:8080";
+
 
 export async function POST(req: Request) {
-  const body = await req.json();
+  try {
+    const body = await req.json();
 
-  const res = await fetch(`${BACKEND_URL}/api/messages`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
+    const res = await fetch(`${BACKEND_URL}/api/messages`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
 
-  const data = await res.json();
-  return NextResponse.json(data, { status: res.status });
+    if (!res.ok) {
+      console.error("Backend API error:", res.status, res.statusText);
+      return NextResponse.json(
+        { error: "Failed to create message" },
+        { status: res.status }
+      );
+    }
+
+    const data = await res.json();
+    return NextResponse.json(data, { status: res.status });
+  } catch (error) {
+    console.error("API route error:", error);
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 }
+    );
+  }
 }
 
 export async function GET(req: Request) {
