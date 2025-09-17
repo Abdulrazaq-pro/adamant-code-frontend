@@ -14,9 +14,10 @@ import {
   Loader2,
   PocketKnife,
   SparklesIcon,
+  SplinePointerIcon,
   StopCircle,
 } from "lucide-react";
-import { SpinnerIcon } from "./icons";
+// import { SpinnerIcon
 
 interface ReasoningPart {
   type: "reasoning";
@@ -64,7 +65,7 @@ export function ReasoningMessagePart({
         <div className="flex flex-row gap-2 items-center">
           <div className="text-sm font-medium">Reasoning</div>
           <div className="animate-spin">
-            <SpinnerIcon />
+            <SplinePointerIcon/>
           </div>
         </div>
       ) : (

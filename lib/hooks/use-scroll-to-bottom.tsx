@@ -27,6 +27,5 @@ export function useScrollToBottom(): [
     }
   }, []);
 
-  // @ts-expect-error error
   return [containerRef, endRef];
 }

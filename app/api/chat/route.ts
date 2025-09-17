@@ -1,5 +1,5 @@
-import { model, type modelID } from "@/ai/providers";
-import { weatherTool } from "@/ai/tools";
+import { model, type modelID } from "@/aics/providers";
+import { weatherTool } from "@/aics/tools";
 import { convertToModelMessages, stepCountIs, streamText, UIMessage } from "ai";
 
 // Allow streaming responses up to 30 seconds

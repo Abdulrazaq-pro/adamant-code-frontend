@@ -1,4 +1,4 @@
-import Link from "next/link";
+// import Link from "next/link";
 import { SidebarTrigger } from "./sidebar";
 
 export const Header = () => {

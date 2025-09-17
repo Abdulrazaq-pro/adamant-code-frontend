@@ -1,6 +1,6 @@
 "use client";
 
-import { defaultModel, type modelID } from "@/ai/providers";
+import { defaultModel, type modelID } from "@/aics/providers";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { Textarea } from "@/components/textarea";
@@ -224,10 +224,8 @@ export default function Chat() {
           className="px-4 pb-8 mx-auto w-full max-w-xl bg-white dark:bg-black sm:px-0"
         >
           <Textarea
-            // selectedModel={selectedModel}
-            setSelectedModel={setSelectedModel}
-            handleInputChange={(e) => setInput(e.currentTarget.value)}
             input={input}
+            handleInputChange={(e) => setInput(e.currentTarget.value)} // You'll need to add this back
             isLoading={isLoading}
             status={isLoading ? "streaming" : "idle"}
             stop={() => setIsLoading(false)}

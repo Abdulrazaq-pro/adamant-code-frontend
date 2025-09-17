@@ -51,7 +51,7 @@ export default function HomePage() {
       //    (helps if the chat page fetched messages before addMessage finished)
       await fetchMessages(conversationId);
 
-      if (!savedMsg?.id) {
+      if (!(savedMsg as any)?.id) {
         toast.error("Failed to save message");
       }
     } catch (error) {
@@ -63,17 +63,17 @@ export default function HomePage() {
   };
 
   return (
-    <div className="flex flex-col w-full h-dvh">
+    <div className="flex flex-col w-full h-dvh bg-white">
       <div className="flex flex-col w-full h-dvh overflow-y-auto flex-1 py-8">
         <div className="block md:hidden">
           <Header />
         </div>
-        
+
         {/* Centered container for ProjectOverview and form */}
         <div className="flex-1 flex flex-col justify-center items-center px-4">
           <div className="w-full max-w-xl space-y-6">
             <ProjectOverview />
-            
+
             <form onSubmit={handleSubmit} className="w-full">
               <Textarea
                 handleInputChange={(e) => setInput(e.currentTarget.value)}

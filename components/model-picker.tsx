@@ -1,5 +1,5 @@
 "use client";
-import { modelID, MODELS } from "@/ai/providers";
+import { modelID, MODELS } from "@/aics/providers";
 import {
   Select,
   SelectContent,

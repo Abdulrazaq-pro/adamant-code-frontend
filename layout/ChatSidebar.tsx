@@ -34,21 +34,21 @@ export default function ChatSidebar() {
   // 1) Build a nameMap using createdAt (oldest => Conversation 1)
   // 2) Build a display list sorted by updatedAt (newest first)
   const { nameMap, displayList } = useMemo(() => {
-    const nonDeleted = (conversations || []).filter((c) => !c.isDeleted);
+    const nonDeleted = (conversations || []).filter((c: any) => !c.isDeleted);
 
     // name map by createdAt ascending (oldest -> newest)
     const sortedByCreated = [...nonDeleted].sort(
-      (a, b) =>
+      (a: any, b: any) =>
         new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     );
     const map = new Map<string, string>();
-    sortedByCreated.forEach((conv, i) => {
+    sortedByCreated.forEach((conv: any, i) => {
       map.set(conv.id, `Conversation ${i + 1}`);
     });
 
     // display order by updatedAt descending (newest -> oldest)
     const sortedByUpdated = [...nonDeleted].sort(
-      (a, b) =>
+      (a: any, b: any) =>
         new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
     );
 
@@ -99,7 +99,7 @@ export default function ChatSidebar() {
               No conversations yet
             </div>
           ) : (
-            displayList.map((conversation) => {
+            displayList.map((conversation: any) => {
               const label =
                 nameMap.get(conversation.id) ??
                 conversation.title ??

@@ -3,7 +3,11 @@ import { createPortal } from "react-dom";
 import { useChatModalStore } from "@/store/chatModalStore";
 import { useChatStore } from "@/store/chatStore";
 
-export default function Modal() {
+interface ModalProps {
+  onDelete?: () => Promise<void> | void;
+}
+
+export default function Modal({ onDelete }: ModalProps) {
   const { isModalOpen, selectedConvId, selectedConvTitle, closeModal } =
     useChatModalStore();
   const { deleteConversation } = useChatStore();
@@ -11,7 +15,13 @@ export default function Modal() {
   if (!isModalOpen) return null;
 
   const handleDelete = async () => {
-    if (selectedConvId) await deleteConversation(selectedConvId);
+    if (onDelete) {
+      // Use the provided onDelete callback
+      await onDelete();
+    } else {
+      // Fall back to the store method
+      if (selectedConvId) await deleteConversation(selectedConvId);
+    }
     closeModal();
   };
 
