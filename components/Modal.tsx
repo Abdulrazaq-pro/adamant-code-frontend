@@ -16,18 +16,20 @@ export default function Modal({ onDelete }: ModalProps) {
 
   const handleDelete = async () => {
     if (onDelete) {
-      // Use the provided onDelete callback
       await onDelete();
     } else {
-      // Fall back to the store method
       if (selectedConvId) await deleteConversation(selectedConvId);
     }
     closeModal();
   };
 
   return createPortal(
-    <div className="fixed inset-0 flex items-center justify-center bg-black/30 bg-opacity-30 backdrop-blur-[4px] z-[1002]">
-      <div className="bg-white p-6 rounded-xl shadow-lg max-w-sm w-full text-center">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+      {/* backdrop (does not intercept clicks) */}
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm pointer-events-none" />
+
+      {/* modal content (receives clicks) */}
+      <div className="relative bg-white p-6 rounded-xl shadow-lg max-w-sm w-full text-center pointer-events-auto">
         <p className="text-gray-800 mb-6">
           Are you sure you want to delete{" "}
           <span className="font-semibold">{selectedConvTitle}</span>?

@@ -6,6 +6,7 @@ import { useChatStore } from "@/store/chatStore";
 import { useChatModalStore } from "@/store/chatModalStore";
 import { SidebarContent, SidebarHeader } from "@/components/sidebar";
 import Modal from "@/components/Modal";
+import Link from "next/link";
 
 export default function ChatSidebar() {
   const router = useRouter();
@@ -78,19 +79,21 @@ export default function ChatSidebar() {
 
   return (
     <div className="p-3 md:pt-2 pt-10">
-      <SidebarHeader className="flex items-center justify-center p-2 mb-4 bg-purple-100 rounded-md shadow-sm">
-        <button 
-          onClick={handleNewChat} 
-          className="flex items-center gap-1 text-purple-700"
-        >
-          <img
-            src="/icons/plus.svg"
-            alt="New conversation"
-            className="w-4 h-4"
-          />
-          <span className="text-sm font-medium">New Chat</span>
-        </button>
-      </SidebarHeader>
+      <Link href="/">
+        <SidebarHeader className="flex items-center justify-center p-2 mb-4 bg-purple-100 rounded-md shadow-sm">
+          <button
+            onClick={handleNewChat}
+            className="flex items-center gap-1 text-purple-700"
+          >
+            <img
+              src="/icons/plus.svg"
+              alt="New conversation"
+              className="w-4 h-4"
+            />
+            <span className="text-sm font-medium">New Chat</span>
+          </button>
+        </SidebarHeader>
+      </Link>
 
       <SidebarContent className="p-0 bg-purple-50">
         <div className="space-y-1">
@@ -104,9 +107,9 @@ export default function ChatSidebar() {
                 nameMap.get(conversation.id) ??
                 conversation.title ??
                 "Conversation";
-              
+
               const isActive = activeConversationId === conversation.id;
-              
+
               return (
                 <div
                   key={conversation.id}
@@ -115,7 +118,7 @@ export default function ChatSidebar() {
                     shadow-sm hover:shadow-md
                     ${
                       isActive
-                        ? "bg-neutral-100 shadow-md"
+                        ? "bg-neutral-200 shadow-md"
                         : "bg-white hover:bg-gray-50"
                     }
                   `}

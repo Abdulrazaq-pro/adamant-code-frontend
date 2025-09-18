@@ -51,9 +51,9 @@ export default function HomePage() {
       //    (helps if the chat page fetched messages before addMessage finished)
       await fetchMessages(conversationId);
 
-      if (!(savedMsg as any)?.id) {
-        toast.error("Failed to save message");
-      }
+      // if (!(savedMsg as any)?.id) {
+      //   toast.error("Failed to save message");
+      // }
     } catch (error) {
       console.error(error);
       toast.error("Something went wrong");
