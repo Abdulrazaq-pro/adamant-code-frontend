@@ -1,5 +1,4 @@
-import { Textarea as ShadcnTextarea } from "@/components/ui/textarea";
-import { ArrowUp } from "lucide-react";
+import { Input } from "@/components/ui/input";
 
 interface InputProps {
   input: string;
@@ -18,20 +17,18 @@ export const Textarea = ({
 }: InputProps) => {
   return (
     <div className="relative w-full pt-4">
-      <ShadcnTextarea
-        className="resize-none bg-secondary w-full rounded-2xl pr-12 pt-4 pb-16"
+      <Input
+        className="bg-secondary w-full rounded-2xl pr-12 h-12"
         value={input}
         autoFocus
-        placeholder={"Say something..."}
-        // @ts-expect-error err
+        placeholder="Say something..."
         onChange={handleInputChange}
         onKeyDown={(e) => {
           if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
             if (input.trim() && !isLoading) {
-              // @ts-expect-error err
-              const form = e.target.closest("form");
-              if (form) form.requestSubmit();
+              const form = (e.target as HTMLElement).closest("form");
+              if (form) (form as HTMLFormElement).requestSubmit();
             }
           }
         }}
@@ -41,10 +38,10 @@ export const Textarea = ({
         <button
           type="button"
           onClick={stop}
-          className="cursor-pointer absolute right-2 bottom-2 rounded-full p-2 bg-black hover:bg-zinc-800 disabled:bg-zinc-300 disabled:cursor-not-allowed transition-colors"
+          className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-black hover:bg-zinc-800 disabled:bg-zinc-300 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
         >
-          <div className="animate-spin h-4 w-4">
-            <svg className="h-4 w-4 text-white" viewBox="0 0 24 24">
+          <div className="animate-spin w-4 h-4">
+            <svg className="w-4 h-4 text-white" viewBox="0 0 24 24">
               <circle
                 className="opacity-25"
                 cx="12"
@@ -66,9 +63,9 @@ export const Textarea = ({
         <button
           type="submit"
           disabled={isLoading || !input.trim()}
-          className="absolute right-2 bottom-2 rounded-full p-2 bg-black hover:bg-zinc-800 disabled:bg-zinc-300 disabled:dark:bg-zinc-700 dark:disabled:opacity-80 disabled:cursor-not-allowed transition-colors"
+          className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-neutral-400 hover:bg-zinc-800 disabled:bg-zinc-300 disabled:dark:bg-zinc-700 dark:disabled:opacity-80 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
         >
-          <ArrowUp className="h-4 w-4 text-white" />
+          <img src="/icons/send.png" alt="Send" className="w-4 h-4" />
         </button>
       )}
     </div>

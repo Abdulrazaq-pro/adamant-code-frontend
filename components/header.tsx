@@ -3,7 +3,7 @@ import { SidebarTrigger } from "./sidebar";
 
 export const Header = () => {
   return (
-    <div className="fixed right-0 left-0 w-full top-0 bg-white z-[999] shadow-xl">
+    <div className="fixed right-0 left-0 w-full top-0 bg-white md:z-[999] shadow-sm">
       <div className="flex justify-between items-center p-2">
         <ChatbotButton />
         <div className="flex flex-row items-center gap-2 shrink-0 md:hidden">
