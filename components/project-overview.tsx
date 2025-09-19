@@ -14,13 +14,22 @@ export const ProjectOverview = () => {
       </h1>
 
       {/* GitHub link */}
-      <p className="text-center">
-        View project source on{" "}
-        <Link href="https://github.com/your-username/your-repo">
-          GitHub
-        </Link>
-        .
-      </p>
+      <div className="md:flex md:gap-4 ">
+        <p className="text-center">
+          Frontend project source on{" "}
+          <Link href="https://github.com/Abdulrazaq-pro/adamant-code-backend">
+            Frontend
+          </Link>
+          .
+        </p>
+        <p className="text-center">
+          Backend project source on{" "}
+          <Link href="https://github.com/Abdulrazaq-pro/adamant-code-frontend">
+            Backend
+          </Link>
+          .
+        </p>
+      </div>
     </div>
   );
 };

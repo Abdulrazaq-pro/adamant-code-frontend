@@ -7,6 +7,22 @@ import { useChatModalStore } from "@/store/chatModalStore";
 import { SidebarContent, SidebarHeader } from "@/components/sidebar";
 import Modal from "@/components/Modal";
 import Link from "next/link";
+import Loader from "@/components/Loader";
+import { RiGhostLine } from "react-icons/ri";
+
+export function EmptyConversation() {
+  return (
+    <div className="flex flex-col items-center justify-center text-center py-16 px-4 text-zinc-500">
+      <RiGhostLine className="text-5xl mb-4 text-zinc-400" />
+      <p className="text-lg font-medium">No conversation yet</p>
+      <span className="text-sm text-zinc-400 mt-1">
+        Start chatting to see messages appear here.
+      </span>
+    </div>
+  );
+}
+
+
 
 export default function ChatSidebar() {
   const router = useRouter();
@@ -18,6 +34,7 @@ export default function ChatSidebar() {
     createConversation,
     activeConversationId,
     setActiveConversation,
+    generalLoading,
   } = useChatStore();
 
   const {
@@ -32,8 +49,8 @@ export default function ChatSidebar() {
     fetchConversations();
   }, [fetchConversations]);
 
-  // 1) Build a nameMap using createdAt (oldest => Conversation 1)
-  // 2) Build a display list sorted by updatedAt (newest first)
+
+  // sorted by updatedAt (newest first)
   const { nameMap, displayList } = useMemo(() => {
     const nonDeleted = (conversations || []).filter((c: any) => !c.isDeleted);
 
@@ -72,15 +89,15 @@ export default function ChatSidebar() {
     }
   };
 
-  // New chat: navigate to home (you asked for this behavior)
+  // New chat: navigate to home 
   const handleNewChat = () => {
     router.push("/");
   };
 
   return (
-    <div className="p-3 md:pt-2 pt-10">
-      <Link href="/">
-        <SidebarHeader className="flex items-center justify-center p-2 mb-4 bg-purple-100 rounded-md shadow-sm">
+    <div className="p-3 md:pt-2 pt-10 ">
+      <Link  href="/">
+        <SidebarHeader className="flex items-center justify-center p-2 mb-4  rounded-md shadow-sm bg-purple-200">
           <button
             onClick={handleNewChat}
             className="flex items-center gap-1 text-purple-700"
@@ -95,13 +112,13 @@ export default function ChatSidebar() {
         </SidebarHeader>
       </Link>
 
-      <SidebarContent className="p-0 bg-purple-50">
+      <SidebarContent className="p-0 ">
         <div className="space-y-1">
-          {displayList.length === 0 ? (
-            <div className="text-sm text-gray-500 text-center py-4">
-              No conversations yet
-            </div>
-          ) : (
+          {generalLoading ? (
+            <div className="flex items-center justify-center w-full h-full">
+              <Loader />
+            </div> //  show loader while fetching
+          ) : displayList.length > 0 ? (
             displayList.map((conversation: any) => {
               const label =
                 nameMap.get(conversation.id) ??
@@ -114,21 +131,21 @@ export default function ChatSidebar() {
                 <div
                   key={conversation.id}
                   className={`
-                    flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer group
-                    shadow-sm hover:shadow-md
-                    ${
-                      isActive
-                        ? "bg-neutral-200 shadow-md"
-                        : "bg-white hover:bg-gray-50"
-                    }
-                  `}
+              flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer group
+              shadow-sm hover:shadow-md
+              ${
+                isActive
+                  ? "bg-neutral-200 shadow-md"
+                  : "bg-white hover:bg-gray-50"
+              }
+            `}
                   onClick={() => handleSelectConversation(conversation.id)}
                 >
                   <span
                     className={`
-                      text-sm font-medium truncate
-                      ${isActive ? "text-gray-800" : "text-gray-700"}
-                    `}
+                text-sm font-medium truncate
+                ${isActive ? "text-gray-800" : "text-gray-700"}
+              `}
                     title={conversation.title || label}
                   >
                     {label}
@@ -137,7 +154,6 @@ export default function ChatSidebar() {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      // open modal with the label (Conversation X)
                       openModal(conversation.id, label);
                     }}
                     className=" group-hover:opacity-90 p-1 hover:bg-red-50 rounded-md"
@@ -151,11 +167,10 @@ export default function ChatSidebar() {
                 </div>
               );
             })
-          )}
+          ) : <EmptyConversation/>}
         </div>
       </SidebarContent>
 
-      {/* Global modal (reads selectedConvTitle from chatModalStore) */}
       <Modal onDelete={handleDeleteConversation} />
     </div>
   );

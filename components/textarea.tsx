@@ -63,9 +63,9 @@ export const Textarea = ({
         <button
           type="submit"
           disabled={isLoading || !input.trim()}
-          className="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-neutral-400 hover:bg-zinc-800 disabled:bg-zinc-300 disabled:dark:bg-zinc-700 dark:disabled:opacity-80 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
+          className="absolute right-3 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-neutral-400 hover:bg-zinc-800 disabled:bg-zinc-300 disabled:dark:bg-zinc-700 dark:disabled:opacity-80 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
         >
-          <img src="/icons/send.png" alt="Send" className="w-4 h-4" />
+          <img src="/icons/send.png" alt="Send" className="w-5 h-5" />
         </button>
       )}
     </div>

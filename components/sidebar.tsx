@@ -75,7 +75,7 @@ const SidebarProvider = React.forwardRef<
     <SidebarContext.Provider value={contextValue}>
       <div
         style={{ '--sidebar-width': SIDEBAR_WIDTH } as React.CSSProperties}
-        className={cn('flex min-h-screen w-full', className)}
+        className={cn('flex min-h-screen w-full ', className)}
         ref={ref}
         {...props}
       >
@@ -97,7 +97,7 @@ const Sidebar = React.forwardRef<
       <Sheet open={openMobile} onOpenChange={setOpenMobile}>
         <SheetContent
           side="left"
-          className="w-72 p-0 "
+          className="w-72 p-0 bg-purple-100 rounded-r-3xl"
           // className="w-72 p-0 bg-gray-50 "
           style={{ '--sidebar-width': SIDEBAR_WIDTH_MOBILE } as React.CSSProperties}
         >

@@ -1,3 +1,5 @@
+"use client";
+
 import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
@@ -11,6 +13,8 @@ import {
 } from "@/components/sidebar";
 import ChatSidebar from "@/layout/ChatSidebar";
 import { Header } from "@/components/header";
+import { useChatStore } from "@/store/chatStore";
+import Loader from "@/components/Loader";
 
 // const geistSans = Geist({
 //   variable: "--font-geist-sans",
@@ -22,36 +26,48 @@ import { Header } from "@/components/header";
 //   subsets: ["latin"],
 // });
 
-export const metadata: Metadata = {
-  title: "Vercel x DeepInfra Chatbot",
-  description:
-    "This starter project uses DeepInfra with the AI SDK via the Vercel Marketplace",
-};
+// export const metadata: Metadata = {
+//   title: "Vercel x DeepInfra Chatbot",
+//   description:
+//     "This starter project uses DeepInfra with the AI SDK via the Vercel Marketplace",
+// };
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const {
+    conversations,
+    // fetchConversations,
+    // fetchMessages,
+    // addMessage,
+    // setActiveConversation,
+    generalLoading,
+    conversationLoading,
+  } = useChatStore();
   return (
     <html lang="en">
       <body className={` antialiased`}>
         {/* <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       > */}
-        <SidebarProvider className="bg-purple-50">
+        <SidebarProvider className="">
           <div className="hidden md:block">
             <Header />
           </div>
-          <Sidebar className="overflow-y-auto flex-1 py-16 space-y-4 h-full">
+          <Sidebar className="overflow-y-auto flex-1 py-16 space-y-4 h-full bg-purple-100">
             <SidebarHeader>
-              <div className="flex items-center justify-between w-full">
-                {/* <h2 className="font-semibold text-lg">Chat History</h2> */}
-                {/* <SidebarTrigger /> */}
-              </div>
+              <div className="flex items-center justify-between w-full"></div>
             </SidebarHeader>
             {/* <SidebarHeader></SidebarHeader> */}
-            <ChatSidebar />
+            {conversations ? (
+              <ChatSidebar />
+            ) : (
+              <div className="flex items-center justify-center h-full w-full">
+                <Loader />
+              </div>
+            )}
           </Sidebar>
           <SidebarInset>
             <div className="">{children}</div>

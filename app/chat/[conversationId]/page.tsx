@@ -1,6 +1,5 @@
 "use client";
 
-import { defaultModel, type modelID } from "@/aics/providers";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { Textarea } from "@/components/textarea";
@@ -20,7 +19,6 @@ interface Message {
 
 export default function Chat() {
   const [input, setInput] = useState("");
-  const [selectedModel, setSelectedModel] = useState<modelID>(defaultModel);
   const [isLoading, setIsLoading] = useState(false);
 
   const params = useParams();
@@ -52,14 +50,12 @@ export default function Chat() {
     }
   }, [fetchConversations, setActiveConversation, conversationId]);
 
-  // Load messages when conversation ID from params changes
   useEffect(() => {
     if (conversationId) {
       fetchMessages(conversationId);
     }
   }, [conversationId, fetchMessages]);
 
-  // Scroll to bottom when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isLoading]);
@@ -78,11 +74,10 @@ export default function Chat() {
     setIsLoading(true);
 
     try {
-      // Send user message - FIXED: Pass content string and isUser boolean
       const userMessageResponse = await addMessage(
         conversationId,
-        userMessage, // 👈 Just the content string
-        true // 👈 isUser = true for user messages
+        userMessage, 
+        true 
       );
 
       setIsLoading(false);
@@ -93,7 +88,6 @@ export default function Chat() {
     }
   };
 
-  // Check if we have any user messages
   const hasUserMessages = messages.some((msg) => msg.isUser);
 
   return (
@@ -102,9 +96,7 @@ export default function Chat() {
       <div className="block md:hidden">
         <Header />
       </div>
-      {/* <Header /> */}
-      {/* <div className="overflow-y-auto flex-1 py-8 space-y-4 h-full"></div> */}
-      {/* Messages Display - Only show when there are user messages */}
+  
       <motion.div
         initial={{ height: 0, opacity: 0 }}
         animate={{
@@ -139,7 +131,6 @@ export default function Chat() {
                   />
                 )}
 
-                {/* Message bubble */}
                 <div
                   className={`max-w-[80%] px-4 py-2 rounded-lg ${
                     isUser
@@ -158,7 +149,6 @@ export default function Chat() {
                   </span>
                 </div>
 
-                {/* User avatar after bubble */}
                 {isUser && (
                   <img
                     src="/user.png"
@@ -170,7 +160,6 @@ export default function Chat() {
             );
           })}
 
-          {/* Typing Indicator */}
           {isLoading && (
             <motion.div
               className="flex justify-start"
@@ -189,11 +178,9 @@ export default function Chat() {
           )}
         </div>
 
-        {/* Invisible element to scroll to */}
         <div ref={messagesEndRef} />
       </motion.div>
 
-      {/* Input Form - Centered initially, then slides to bottom */}
       <motion.div
         initial={false}
         animate={{
@@ -216,7 +203,7 @@ export default function Chat() {
         >
           <Textarea
             input={input}
-            handleInputChange={(e) => setInput(e.currentTarget.value)} // You'll need to add this back
+            handleInputChange={(e) => setInput(e.currentTarget.value)} 
             isLoading={isLoading}
             status={isLoading ? "streaming" : "idle"}
             stop={() => setIsLoading(false)}

@@ -4,10 +4,10 @@ interface Message {
   id: string;
   conversationId: string;
   content: string;
-  isUser: boolean; // Your local format
-  sender?: string; // API format (optional)
+  isUser: boolean;
+  sender?: string; 
   createdAt: string;
-  pending?: boolean; // Optional flag for optimistic updates
+  pending?: boolean; 
 }
 
 interface Conversation {
@@ -15,8 +15,8 @@ interface Conversation {
   title: string;
   messages: Message[];
   isDeleted: boolean;
-  createdAt: string; // Add this
-  updatedAt: string; // Add this
+  createdAt: string; 
+  updatedAt: string;
 }
 
 interface ChatStore {
@@ -24,12 +24,10 @@ interface ChatStore {
   conversations: Conversation[];
   activeConversationId: string | null;
 
-  // Loading states
   conversationLoading: boolean;
-  messageLoading: boolean; // New: General message loading state
-  messageLoadingMap: Record<string, boolean>; // New: Per-conversation message loading
+  messageLoading: boolean; 
+  messageLoadingMap: Record<string, boolean>; 
 
-  // Actions
   createConversation: (title: string) => Promise<any>;
   fetchConversations: () => Promise<void>;
   fetchMessages: (conversationId: string) => Promise<void>;
@@ -41,15 +39,14 @@ interface ChatStore {
   deleteConversation: (conversationId: string) => Promise<void>;
   setActiveConversation: (conversationId: string | null) => void;
 
-  // Loading state setters
   setConversationLoading: (loading: boolean) => void;
   setGeneralLoading: (loading: boolean) => void;
-  setMessageLoading: (loading: boolean) => void; // New: General message loading
-  setMessageLoadingForConversation: (conversationId: string, loading: boolean) => void; // New: Per-conversation loading
+  setMessageLoading: (loading: boolean) => void; 
+  setMessageLoadingForConversation: (conversationId: string, loading: boolean) => void;
 
   // Helper getters
-  isMessageLoadingForConversation: (conversationId: string) => boolean; // New: Check if messages are loading for specific conversation
-  isAnyMessageLoading: () => boolean; // New: Check if any message operation is loading
+  isMessageLoadingForConversation: (conversationId: string) => boolean; 
+  isAnyMessageLoading: () => boolean; 
 }
 
 export const useChatStore = create<ChatStore>((set, get) => ({
@@ -57,10 +54,9 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   activeConversationId: null,
   conversationLoading: false,
   generalLoading: false,
-  messageLoading: false, // New: Initialize message loading state
-  messageLoadingMap: {}, // New: Initialize per-conversation loading map
+  messageLoading: false, 
+  messageLoadingMap: {}, 
 
-  // Loading state setters
   setConversationLoading: (loading: boolean) => {
     set((state) => ({ ...state, conversationLoading: loading }));
   },
@@ -69,12 +65,10 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     set((state) => ({ ...state, generalLoading: loading }));
   },
 
-  // New: Set general message loading state
   setMessageLoading: (loading: boolean) => {
     set((state) => ({ ...state, messageLoading: loading }));
   },
 
-  // New: Set message loading state for specific conversation
   setMessageLoadingForConversation: (conversationId: string, loading: boolean) => {
     set((state) => ({
       ...state,
@@ -85,13 +79,11 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     }));
   },
 
-  // New: Helper to check if messages are loading for a specific conversation
   isMessageLoadingForConversation: (conversationId: string) => {
     const state = get();
     return state.messageLoadingMap[conversationId] || false;
   },
 
-  // New: Helper to check if any message operation is loading
   isAnyMessageLoading: () => {
     const state = get();
     return state.messageLoading || Object.values(state.messageLoadingMap).some(Boolean);
@@ -103,7 +95,6 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     try {
       const state = get();
 
-      // ✅ Check if there's already an empty conversation (no messages)
       const hasEmptyConversation = state.conversations.some(
         (conv) => !conv.isDeleted && conv.messages.length === 0
       );
@@ -176,7 +167,6 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 
       const data = await res.json();
 
-      // Use spread operator to properly update state
       set((state) => ({
         ...state,
         conversations: Array.isArray(data.data)
@@ -194,14 +184,13 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   },
 
   fetchMessages: async (conversationId: string) => {
-    // Set both general conversation loading and specific message loading
     set((state) => ({ 
       ...state, 
       conversationLoading: true,
-      messageLoading: true, // New: Set general message loading
+      messageLoading: true, 
       messageLoadingMap: {
         ...state.messageLoadingMap,
-        [conversationId]: true, // New: Set loading for this conversation
+        [conversationId]: true, 
       },
     }));
 
@@ -214,14 +203,12 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 
       const messagesData = await res.json();
 
-      // Handle different response formats and use spread operator
       const messages: Message[] = Array.isArray(messagesData.data)
         ? messagesData.data
         : Array.isArray(messagesData)
         ? messagesData
         : [];
 
-      // Update conversation with spread operator to maintain immutability
       set((state) => ({
         ...state,
         conversations: state.conversations.map((conv) =>
@@ -229,7 +216,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
             ? {
                 ...conv,
                 messages: [...messages],
-                updatedAt: new Date().toISOString(), // Update timestamp when messages are fetched
+                updatedAt: new Date().toISOString(), 
               }
             : conv
         ),
@@ -238,14 +225,13 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       console.error("Failed to fetch messages:", error);
       throw error;
     } finally {
-      // Clear both general and specific loading states
       set((state) => ({ 
         ...state, 
         conversationLoading: false,
-        messageLoading: false, // New: Clear general message loading
+        messageLoading: false, 
         messageLoadingMap: {
           ...state.messageLoadingMap,
-          [conversationId]: false, // New: Clear loading for this conversation
+          [conversationId]: false, 
         },
       }));
     }
@@ -256,18 +242,16 @@ export const useChatStore = create<ChatStore>((set, get) => ({
     content: string,
     isUser: boolean
   ) => {
-    // Set loading states for message operations
     set((state) => ({ 
       ...state, 
       conversationLoading: true,
-      messageLoading: true, // New: Set general message loading
+      messageLoading: true,
       messageLoadingMap: {
         ...state.messageLoadingMap,
-        [conversationId]: true, // New: Set loading for this conversation
+        [conversationId]: true, 
       },
     }));
 
-    // Step 1: Create a temporary user message (input)
     const tempId = crypto.randomUUID();
     const sender = isUser ? "user" : "assistant";
 
@@ -275,10 +259,10 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       id: tempId,
       conversationId,
       content,
-      isUser: true, // This is the user input
+      isUser: true, 
       sender: "user",
       createdAt: new Date().toISOString(),
-      pending: true, // custom flag
+      pending: true,
     };
 
     // Immediately update UI with temp user message
@@ -315,10 +299,8 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 
       const responseData = await res.json();
 
-      // Step 3: Get AI response from responseData.data and add both messages
-      const aiResponse: Message = responseData.data; // This is the AI response
+      const aiResponse: Message = responseData.data; 
 
-      // Replace temp user message with confirmed user message + add AI response
       set((state) => ({
         ...state,
         conversations: state.conversations.map((conv) =>
@@ -326,20 +308,18 @@ export const useChatStore = create<ChatStore>((set, get) => ({
             ? {
                 ...conv,
                 messages: [
-                  ...conv.messages.filter((msg) => msg.id !== tempId), // Remove temp
-                  { ...tempUserMessage, pending: false }, // Add confirmed user message
-                  aiResponse, // Add AI response from API
+                  ...conv.messages.filter((msg) => msg.id !== tempId),
+                  { ...tempUserMessage, pending: false }, 
+                  aiResponse, 
                 ],
               }
             : conv
         ),
       }));
 
-      // Remove the return statement to match Promise<void>
     } catch (error) {
       console.error("Failed to add message:", error);
 
-      // Step 4: Roll back — remove the temp user message
       set((state) => ({
         ...state,
         conversations: state.conversations.map((conv) =>
@@ -354,7 +334,6 @@ export const useChatStore = create<ChatStore>((set, get) => ({
 
       throw error;
     } finally {
-      // Clear both general and specific loading states
       set((state) => ({ 
         ...state, 
         conversationLoading: false,
@@ -382,7 +361,6 @@ export const useChatStore = create<ChatStore>((set, get) => ({
       const result = await res.json();
 
       if (result.success) {
-        // Use spread operator for state updates and clean up message loading state
         set((state) => {
           const { [conversationId]: removedLoading, ...remainingLoadingMap } = state.messageLoadingMap;
           
@@ -391,12 +369,10 @@ export const useChatStore = create<ChatStore>((set, get) => ({
             conversations: state.conversations.filter(
               (conv) => conv.id !== conversationId
             ),
-            // Reset active conversation if it was deleted
             activeConversationId:
               state.activeConversationId === conversationId
                 ? null
                 : state.activeConversationId,
-            // Clean up the loading state for deleted conversation
             messageLoadingMap: remainingLoadingMap,
           };
         });

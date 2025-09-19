@@ -1,5 +1,4 @@
 
-// store/chatModalStore.ts
 import { create } from "zustand";
 
 interface ChatModalState {
