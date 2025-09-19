@@ -25,7 +25,7 @@ export const ProjectOverview = () => {
         <p className="text-center">
           Backend project source on{" "}
           <Link href="https://github.com/Abdulrazaq-pro/adamant-code-frontend">
-            Backend
+            Backend 
           </Link>
           .
         </p>

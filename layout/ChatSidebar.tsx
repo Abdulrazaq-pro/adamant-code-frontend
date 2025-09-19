@@ -30,6 +30,7 @@ export default function ChatSidebar() {
   const {
     conversations,
     fetchConversations,
+    conversationLoading,
     deleteConversation,
     createConversation,
     activeConversationId,
@@ -114,7 +115,7 @@ export default function ChatSidebar() {
 
       <SidebarContent className="p-0 ">
         <div className="space-y-1">
-          {generalLoading ? (
+          {conversationLoading ? (
             <div className="flex items-center justify-center w-full h-full">
               <Loader />
             </div> //  show loader while fetching

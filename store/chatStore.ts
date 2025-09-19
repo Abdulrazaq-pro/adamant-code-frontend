@@ -90,7 +90,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   },
 
   createConversation: async (title?: string) => {
-    set((state) => ({ ...state, conversationLoading: true }));
+    set((state) => ({ ...state, conversationLoading: false }));
 
     try {
       const state = get();
@@ -186,7 +186,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   fetchMessages: async (conversationId: string) => {
     set((state) => ({ 
       ...state, 
-      conversationLoading: true,
+      conversationLoading: false,
       messageLoading: true, 
       messageLoadingMap: {
         ...state.messageLoadingMap,
@@ -244,7 +244,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   ) => {
     set((state) => ({ 
       ...state, 
-      conversationLoading: true,
+      conversationLoading: false,
       messageLoading: true,
       messageLoadingMap: {
         ...state.messageLoadingMap,
@@ -347,7 +347,7 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   },
 
   deleteConversation: async (conversationId: string) => {
-    set((state) => ({ ...state, conversationLoading: true }));
+    set((state) => ({ ...state, conversationLoading: false }));
 
     try {
       const res = await fetch(`/api/conversations?id=${conversationId}`, {
