@@ -1,6 +1,6 @@
 "use client";
 
-import { defaultModel, type modelID } from "@/aics/providers";
+// import { defaultModel, type modelID } from "@/aics/providers";
 import { useChat } from "@ai-sdk/react";
 import { useState } from "react";
 import { Textarea } from "@/components/textarea";
@@ -13,7 +13,7 @@ export default function Chat() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const [selectedModel, setSelectedModel] = useState<modelID>(defaultModel);
+  // const [selectedModel, setSelectedModel] = useState<modelID>(defaultModel);
   const { sendMessage, messages, status, stop } = useChat({
     onError: (error) => {
       toast.error(
@@ -40,7 +40,7 @@ export default function Chat() {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          sendMessage({ text: input }, { body: { selectedModel } });
+          sendMessage({ text: input });
           setInput("");
         }}
         className="px-4 pb-8 mx-auto w-full max-w-xl bg-white dark:bg-black sm:px-0"
