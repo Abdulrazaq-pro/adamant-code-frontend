@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
+
+    
   },
   "dependencies": {
     "@ai-sdk/deepinfra": "1.0.0-beta.8",

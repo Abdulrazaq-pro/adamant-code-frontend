@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Textarea } from "@/components/textarea";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
@@ -21,6 +21,8 @@ export default function Chat() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const router = useRouter();
+
   const params = useParams();
   const conversationId = params.conversationId as string;
 
@@ -34,7 +36,18 @@ export default function Chat() {
     fetchMessages,
     addMessage,
     setActiveConversation,
+    generalLoading,
   } = useChatStore();
+
+  useEffect(() => {
+    // Only run when generalLoading is false and conversationId exists
+    if (!generalLoading && conversationId) {
+      const exists = conversations.some((conv) => conv.id === conversationId);
+      if (!exists) {
+        router.push("/"); // redirect to homepage or any fallback page
+      }
+    }
+  }, [generalLoading, conversationId, conversations, router]);
 
   // Get current conversation and messages
   const currentConversation = conversations.find(
@@ -76,8 +89,8 @@ export default function Chat() {
     try {
       const userMessageResponse = await addMessage(
         conversationId,
-        userMessage, 
-        true 
+        userMessage,
+        true
       );
 
       setIsLoading(false);
@@ -96,7 +109,7 @@ export default function Chat() {
       <div className="block md:hidden">
         <Header />
       </div>
-  
+
       <motion.div
         initial={{ height: 0, opacity: 0 }}
         animate={{
@@ -203,7 +216,7 @@ export default function Chat() {
         >
           <Textarea
             input={input}
-            handleInputChange={(e) => setInput(e.currentTarget.value)} 
+            handleInputChange={(e) => setInput(e.currentTarget.value)}
             isLoading={isLoading}
             status={isLoading ? "streaming" : "idle"}
             stop={() => setIsLoading(false)}
